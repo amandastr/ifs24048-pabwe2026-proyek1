@@ -25,7 +25,7 @@ export default function Portfolio() {
         </select>
       </div>
       {error && <p role="alert" className="mt-4 font-semibold">{error}</p>}
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>
+      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} as="h2" />)}</div>
     </>
   );
 }

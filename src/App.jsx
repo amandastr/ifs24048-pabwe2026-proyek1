@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
@@ -7,7 +7,12 @@ import Home from './pages/Home.jsx';
 import { About, Services, Contact } from './pages/Static.jsx';
 import Portfolio from './pages/Portfolio.jsx';
 import Login from './pages/Login.jsx';
-import { Dashboard, Settings, Profile, Orders } from './pages/Private.jsx';
+
+const pick = (name) => lazy(() => import('./pages/Private.jsx').then((m) => ({ default: m[name] })));
+const Dashboard = pick('Dashboard');
+const Settings = pick('Settings');
+const Profile = pick('Profile');
+const Orders = pick('Orders');
 
 export default function App() {
   const { pathname } = useLocation();
@@ -19,21 +24,23 @@ export default function App() {
       </a>
       <Navbar />
       <main id="konten" className="mx-auto min-h-[70vh] max-w-6xl px-4 py-10">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/auth/login" element={<Login />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<Orders />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Suspense fallback={<p role="status">Memuat…</p>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/auth/login" element={<Login />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/orders" element={<Orders />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </>
