@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply bg-cream text-cocoa font-body antialiased; }
+  h1, h2, h3 { @apply font-display; }
+  :focus-visible { outline: 3px solid #2B1E1A; outline-offset: 3px; }
+}
+@layer components {
+  .btn { @apply inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 font-semibold text-cocoa transition hover:bg-[#c8935f] disabled:opacity-60; }
+  .btn-outline { @apply inline-flex items-center justify-center rounded-full border-2 border-cocoa px-6 py-3 font-semibold text-cocoa transition hover:bg-sand; }
+  .field { @apply w-full rounded-lg border-2 border-cocoa/60 bg-white px-4 py-2.5 text-cocoa; }
+  .label { @apply mb-1 block font-semibold; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
