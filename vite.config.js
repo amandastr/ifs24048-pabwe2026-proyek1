@@ -23,5 +23,6 @@ function inlineCss() {
 
 export default defineConfig({
   plugins: [react(), inlineCss()],
+  test: { environment: 'jsdom', globals: true },
   server: { proxy: { '/api': 'http://localhost:3001' } },
 });
