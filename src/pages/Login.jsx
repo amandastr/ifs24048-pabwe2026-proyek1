@@ -39,7 +39,7 @@ export default function Login() {
           <input id="password" type="password" className="field" autoComplete="current-password" required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
         </div>
         {error && <p role="alert" className="font-semibold">{error}</p>}
-        <button className="btn w-full" type="submit" disabled={loading}>{loading ? 'Memproses…' : 'Masuk'}</button>
+        <button id="btn-submit" className="btn w-full" type="submit" disabled={loading}>{loading ? 'Memproses…' : 'Masuk'}</button>
       </form>
     </div>
   );
