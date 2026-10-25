@@ -4,6 +4,7 @@ import usePageTitle from '../hooks/usePageTitle.js';
 import ProductCard from '../components/ProductCard.jsx';
 import Field from '../components/Field.jsx';
 import Alert from '../components/Alert.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 import Loading from '../components/Loading.jsx';
 
 const CATEGORIES = ['Roti', 'Kue', 'Kue Kering'];
@@ -24,6 +25,7 @@ export default function Portfolio() {
       </div>
       {loading && <Loading />}
       <Alert message={error} />
+      {!loading && !error && (data || []).length === 0 && <EmptyState message="Tidak ada produk pada kategori ini." />}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{(data || []).map((p) => <ProductCard key={p.id} p={p} as="h2" />)}</div>
     </>
   );

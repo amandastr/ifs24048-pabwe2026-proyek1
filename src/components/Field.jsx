@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 // Input berlabel dengan pesan error yang terhubung lewat aria-describedby.
 export default function Field({ id, label, error, as: Tag = 'input', ...props }) {
   return (
@@ -14,3 +16,10 @@ export default function Field({ id, label, error, as: Tag = 'input', ...props })
     </div>
   );
 }
+
+Field.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  error: PropTypes.string,
+  as: PropTypes.elementType,
+};

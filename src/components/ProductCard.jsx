@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { rupiah } from '../utils/format.js';
 
 export default function ProductCard({ p, as: Heading = 'h3' }) {
@@ -10,3 +11,14 @@ export default function ProductCard({ p, as: Heading = 'h3' }) {
     </article>
   );
 }
+
+ProductCard.propTypes = {
+  p: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    price: PropTypes.number.isRequired,
+    emoji: PropTypes.string,
+  }).isRequired,
+  as: PropTypes.elementType,
+};

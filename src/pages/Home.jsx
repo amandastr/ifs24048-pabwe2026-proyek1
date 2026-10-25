@@ -3,6 +3,7 @@ import useFetch from '../hooks/useFetch.js';
 import usePageTitle from '../hooks/usePageTitle.js';
 import ProductCard from '../components/ProductCard.jsx';
 import Alert from '../components/Alert.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 import Loading from '../components/Loading.jsx';
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
         <h2 id="favorit" className="text-3xl font-bold">Favorit pelanggan</h2>
         {loading && <Loading />}
         <Alert message={error} />
+        {!loading && !error && featured.length === 0 && <EmptyState message="Produk belum tersedia." />}
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{featured.map((p) => <ProductCard key={p.id} p={p} />)}</div>
       </section>
     </>
