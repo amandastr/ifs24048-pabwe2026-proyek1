@@ -23,6 +23,7 @@ function inlineCss() {
 
 export default defineConfig({
   plugins: [react(), inlineCss()],
+  preview: { allowedHosts: true },
   test: {
     environment: 'jsdom',
     globals: true,
