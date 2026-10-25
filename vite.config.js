@@ -23,5 +23,18 @@ function inlineCss() {
 
 export default defineConfig({
   plugins: [react(), inlineCss()],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/setupTests.js',
+    include: ['src/**/*.test.{js,jsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text-summary', 'lcov'],
+      reportsDirectory: 'coverage',
+      include: ['src/**/*.{js,jsx}'],
+      exclude: ['src/main.jsx', 'src/setupTests.js', 'src/test-utils.jsx', 'src/**/*.test.{js,jsx}'],
+    },
+  },
   server: { proxy: { '/api': 'http://localhost:3001' } },
 });

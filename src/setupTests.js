@@ -1,0 +1,11 @@
+import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
+
+window.scrollTo = vi.fn();
+
+afterEach(() => {
+  cleanup();
+  localStorage.clear();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
