@@ -1,7 +1,8 @@
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../auth.jsx';
 import useFetch from '../hooks/useFetch.js';
 import usePageTitle from '../hooks/usePageTitle.js';
-import AsyncState from '../components/AsyncState.jsx';
+import Alert from '../components/Alert.jsx';
+import Loading from '../components/Loading.jsx';
 
 export default function Profile() {
   usePageTitle('Profil');
@@ -12,7 +13,8 @@ export default function Profile() {
   return (
     <>
       <h1 className="text-4xl font-bold">Profil</h1>
-      <AsyncState loading={loading} error={error} />
+      {loading && <Loading />}
+      <Alert message={error} />
       {me && (
         <dl className="mt-6 max-w-md space-y-4 rounded-2xl border-2 border-gold bg-white p-6">
           {rows.map(([label, value]) => (

@@ -1,8 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { loginRequest } from '../services/authService.js';
-import { getTokenExpiry } from '../utils/jwt.js';
-import { readSession, saveSession, clearSession } from '../services/tokenStorage.js';
+import { loginRequest } from './services/authService.js';
+import { readSession, saveSession, clearSession } from './services/tokenStorage.js';
 
 const AuthContext = createContext(null);
 
@@ -26,14 +25,6 @@ export function AuthProvider({ children }) {
     clearSession();
     setSession(null);
   }, []);
-
-  // Keluar otomatis tepat saat token kedaluwarsa.
-  useEffect(() => {
-    if (!session) return undefined;
-    const delay = Math.max(getTokenExpiry(session.token) - Date.now(), 0);
-    const timer = setTimeout(logout, delay);
-    return () => clearTimeout(timer);
-  }, [session, logout]);
 
   const value = useMemo(
     () => ({ token: session?.token ?? null, user: session?.user ?? null, login, logout }),

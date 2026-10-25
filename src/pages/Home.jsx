@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import useProducts from '../hooks/useProducts.js';
 import usePageTitle from '../hooks/usePageTitle.js';
-import AsyncState from '../components/AsyncState.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import Alert from '../components/Alert.jsx';
+import EmptyState from '../components/EmptyState.jsx';
+import Loading from '../components/Loading.jsx';
 
 export default function Home() {
   usePageTitle('Beranda');
@@ -23,7 +25,9 @@ export default function Home() {
       </section>
       <section className="mt-16" aria-labelledby="favorit">
         <h2 id="favorit" className="text-3xl font-bold">Favorit pelanggan</h2>
-        <AsyncState loading={loading} error={error} isEmpty={products.length === 0} emptyMessage="Produk belum tersedia." />
+        {loading && <Loading />}
+        <Alert message={error} />
+        {!loading && !error && products.length === 0 && <EmptyState message="Produk belum tersedia." />}
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => <ProductCard key={product.id} product={product} />)}
         </div>

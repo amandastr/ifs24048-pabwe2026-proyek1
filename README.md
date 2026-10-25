@@ -10,9 +10,8 @@ npm install
 npm run dev      # http://localhost:5173 (proxy /api ke localhost:3001)
 ```
 
-## Pengujian dan build
+## Build
 ```
-npm test         # Vitest
 npm run build    # hasil di folder dist
 ```
 Untuk build produksi, isi `.env.production` dengan URL backend online (`VITE_API_URL`).

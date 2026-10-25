@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import useProducts from '../hooks/useProducts.js';
 import usePageTitle from '../hooks/usePageTitle.js';
-import AsyncState from '../components/AsyncState.jsx';
 import ProductCard from '../components/ProductCard.jsx';
 import Field from '../components/Field.jsx';
+import Alert from '../components/Alert.jsx';
+import EmptyState from '../components/EmptyState.jsx';
+import Loading from '../components/Loading.jsx';
 
 const CATEGORIES = ['Roti', 'Kue', 'Kue Kering'];
 
@@ -21,7 +23,9 @@ export default function Portfolio() {
           {CATEGORIES.map((name) => <option key={name}>{name}</option>)}
         </Field>
       </div>
-      <AsyncState loading={loading} error={error} isEmpty={products.length === 0} emptyMessage="Tidak ada produk pada kategori ini." />
+      {loading && <Loading />}
+      <Alert message={error} />
+      {!loading && !error && products.length === 0 && <EmptyState message="Tidak ada produk pada kategori ini." />}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {products.map((product) => <ProductCard key={product.id} product={product} as="h2" />)}
       </div>

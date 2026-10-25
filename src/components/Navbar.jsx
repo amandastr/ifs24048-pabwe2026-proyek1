@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../auth.jsx';
 
 const publicLinks = [['/', 'Beranda'], ['/about', 'Tentang Kami'], ['/services', 'Layanan'], ['/portfolio', 'Katalog'], ['/contact', 'Kontak']];
 const privateLinks = [['/dashboard', 'Dashboard'], ['/orders', 'Pesanan'], ['/profile', 'Profil'], ['/settings', 'Pengaturan']];

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../auth.jsx';
 import useOrders from '../hooks/useOrders.js';
 import usePageTitle from '../hooks/usePageTitle.js';
-import AsyncState from '../components/AsyncState.jsx';
+import Alert from '../components/Alert.jsx';
+import Loading from '../components/Loading.jsx';
 import { rupiah } from '../utils/format.js';
 
 export default function Dashboard() {
@@ -14,7 +15,8 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-4xl font-bold">Halo, {user?.full_name}</h1>
-      <AsyncState loading={loading} error={error} />
+      {loading && <Loading />}
+      <Alert message={error} />
       <dl className="mt-8 grid gap-6 sm:grid-cols-3">
         {stats.map(([label, value]) => (
           <div key={label} className="rounded-2xl border-2 border-gold bg-white p-6">
