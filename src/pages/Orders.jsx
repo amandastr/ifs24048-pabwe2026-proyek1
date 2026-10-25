@@ -1,5 +1,5 @@
 import { useAuth } from '../auth.jsx';
-import useFetch from '../hooks/useFetch.js';
+import useOrders from '../hooks/useOrders.js';
 import usePageTitle from '../hooks/usePageTitle.js';
 import Alert from '../components/Alert.jsx';
 import EmptyState from '../components/EmptyState.jsx';
@@ -11,8 +11,7 @@ const COLUMNS = ['Tanggal', 'Produk', 'Jumlah', 'Total', 'Status'];
 export default function Orders() {
   usePageTitle('Pesanan');
   const { token } = useAuth();
-  const { data, loading, error } = useFetch('/orders', token);
-  const orders = data || [];
+  const { orders, loading, error } = useOrders(token);
 
   return (
     <>

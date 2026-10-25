@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth.jsx';
-import useFetch from '../hooks/useFetch.js';
+import useOrders from '../hooks/useOrders.js';
 import usePageTitle from '../hooks/usePageTitle.js';
 import Alert from '../components/Alert.jsx';
 import Loading from '../components/Loading.jsx';
@@ -9,11 +9,8 @@ import { rupiah } from '../utils/format.js';
 export default function Dashboard() {
   usePageTitle('Dashboard');
   const { user, token } = useAuth();
-  const { data, loading, error } = useFetch('/orders', token);
-  const orders = data || [];
-  const total = orders.reduce((sum, o) => sum + o.price * o.quantity, 0);
-  const active = orders.filter((o) => o.status !== 'Selesai').length;
-  const stats = [['Total pesanan', orders.length], ['Pesanan aktif', active], ['Total belanja', rupiah(total)]];
+  const { summary, loading, error } = useOrders(token);
+  const stats = [['Total pesanan', summary.count], ['Pesanan aktif', summary.active], ['Total belanja', rupiah(summary.total)]];
 
   return (
     <>

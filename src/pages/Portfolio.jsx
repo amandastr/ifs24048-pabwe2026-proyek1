@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useFetch from '../hooks/useFetch.js';
+import useProducts from '../hooks/useProducts.js';
 import usePageTitle from '../hooks/usePageTitle.js';
 import ProductCard from '../components/ProductCard.jsx';
 import Field from '../components/Field.jsx';
@@ -12,7 +12,7 @@ const CATEGORIES = ['Roti', 'Kue', 'Kue Kering'];
 export default function Portfolio() {
   usePageTitle('Katalog Produk');
   const [category, setCategory] = useState('');
-  const { data, loading, error } = useFetch(`/products${category ? `?category=${encodeURIComponent(category)}` : ''}`);
+  const { products, loading, error } = useProducts({ category });
 
   return (
     <>
@@ -20,13 +20,15 @@ export default function Portfolio() {
       <div className="mt-6 max-w-xs">
         <Field id="kategori" label="Filter kategori" as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Semua kategori</option>
-          {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+          {CATEGORIES.map((name) => <option key={name}>{name}</option>)}
         </Field>
       </div>
       {loading && <Loading />}
       <Alert message={error} />
-      {!loading && !error && (data || []).length === 0 && <EmptyState message="Tidak ada produk pada kategori ini." />}
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{(data || []).map((p) => <ProductCard key={p.id} p={p} as="h2" />)}</div>
+      {!loading && !error && products.length === 0 && <EmptyState message="Tidak ada produk pada kategori ini." />}
+      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {products.map((product) => <ProductCard key={product.id} product={product} as="h2" />)}
+      </div>
     </>
   );
 }

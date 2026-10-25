@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import useFetch from '../hooks/useFetch.js';
+import useProducts from '../hooks/useProducts.js';
 import usePageTitle from '../hooks/usePageTitle.js';
 import ProductCard from '../components/ProductCard.jsx';
 import Alert from '../components/Alert.jsx';
@@ -8,8 +8,7 @@ import Loading from '../components/Loading.jsx';
 
 export default function Home() {
   usePageTitle('Beranda');
-  const { data, loading, error } = useFetch('/products');
-  const featured = (data || []).slice(0, 3);
+  const { products, loading, error } = useProducts({ limit: 3 });
 
   return (
     <>
@@ -28,8 +27,10 @@ export default function Home() {
         <h2 id="favorit" className="text-3xl font-bold">Favorit pelanggan</h2>
         {loading && <Loading />}
         <Alert message={error} />
-        {!loading && !error && featured.length === 0 && <EmptyState message="Produk belum tersedia." />}
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{featured.map((p) => <ProductCard key={p.id} p={p} />)}</div>
+        {!loading && !error && products.length === 0 && <EmptyState message="Produk belum tersedia." />}
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => <ProductCard key={product.id} product={product} />)}
+        </div>
       </section>
     </>
   );
