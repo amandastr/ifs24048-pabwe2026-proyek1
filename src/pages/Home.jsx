@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../api.js';
+import useFetch from '../hooks/useFetch.js';
+import usePageTitle from '../hooks/usePageTitle.js';
 import ProductCard from '../components/ProductCard.jsx';
-import usePageTitle from '../usePageTitle.js';
+import Alert from '../components/Alert.jsx';
+import Loading from '../components/Loading.jsx';
 
 export default function Home() {
   usePageTitle('Beranda');
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState('');
-  useEffect(() => { api('/products').then((d) => setItems(d.slice(0, 3))).catch((e) => setError(e.message)); }, []);
+  const { data, loading, error } = useFetch('/products');
+  const featured = (data || []).slice(0, 3);
 
   return (
     <>
@@ -25,8 +25,9 @@ export default function Home() {
       </section>
       <section className="mt-16" aria-labelledby="favorit">
         <h2 id="favorit" className="text-3xl font-bold">Favorit pelanggan</h2>
-        {error && <p role="alert" className="mt-4 font-semibold">{error}</p>}
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>
+        {loading && <Loading />}
+        <Alert message={error} />
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{featured.map((p) => <ProductCard key={p.id} p={p} />)}</div>
       </section>
     </>
   );

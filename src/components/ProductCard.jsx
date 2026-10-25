@@ -1,4 +1,4 @@
-import { rupiah } from '../api.js';
+import { rupiah } from '../utils/format.js';
 
 export default function ProductCard({ p, as: Heading = 'h3' }) {
   return (
