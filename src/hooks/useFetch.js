@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
-import { useAuth } from '../auth.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 
 // Mengambil data dari API; request dibatalkan saat komponen lepas atau path berubah.
 // Jika token ditolak server (401), sesi dihapus dan pengguna diarahkan ke login.

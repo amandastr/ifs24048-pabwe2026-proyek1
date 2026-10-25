@@ -1,9 +1,7 @@
-import { useAuth } from '../auth.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import useOrders from '../hooks/useOrders.js';
 import usePageTitle from '../hooks/usePageTitle.js';
-import Alert from '../components/Alert.jsx';
-import EmptyState from '../components/EmptyState.jsx';
-import Loading from '../components/Loading.jsx';
+import AsyncState from '../components/AsyncState.jsx';
 import { rupiah } from '../utils/format.js';
 
 const COLUMNS = ['Tanggal', 'Produk', 'Jumlah', 'Total', 'Status'];
@@ -16,9 +14,7 @@ export default function Orders() {
   return (
     <>
       <h1 className="text-4xl font-bold">Pesanan saya</h1>
-      {loading && <Loading />}
-      <Alert message={error} />
-      {!loading && !error && orders.length === 0 && <EmptyState message="Belum ada pesanan. Pilih roti favorit Anda di katalog." />}
+      <AsyncState loading={loading} error={error} isEmpty={orders.length === 0} emptyMessage="Belum ada pesanan. Pilih roti favorit Anda di katalog." />
       {orders.length > 0 && (
         <div className="mt-6 overflow-x-auto rounded-2xl border-2 border-gold bg-white">
           <table className="w-full text-left">

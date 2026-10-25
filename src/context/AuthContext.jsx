@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { loginRequest } from './services/authService.js';
-import { readSession, saveSession, clearSession } from './services/tokenStorage.js';
+import { loginRequest } from '../services/authService.js';
+import { readSession, saveSession, clearSession } from '../services/tokenStorage.js';
 
 const AuthContext = createContext(null);
 

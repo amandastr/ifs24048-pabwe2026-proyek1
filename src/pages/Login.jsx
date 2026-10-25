@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../auth.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
+import useAsyncAction from '../hooks/useAsyncAction.js';
 import useForm from '../hooks/useForm.js';
 import usePageTitle from '../hooks/usePageTitle.js';
 import Field from '../components/Field.jsx';
@@ -13,22 +13,14 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { values, errors, handleChange, isValid } = useForm({ username: '', password: '' }, validateLogin);
-  const [serverError, setServerError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { pending, error, run, resetStatus } = useAsyncAction(login);
 
   async function submit(event) {
     event.preventDefault();
-    setServerError('');
+    resetStatus();
     if (!isValid()) return;
-    setLoading(true);
-    try {
-      await login(values.username.trim(), values.password);
-      navigate(location.state?.from || '/dashboard', { replace: true });
-    } catch (err) {
-      setServerError(err.message);
-    } finally {
-      setLoading(false);
-    }
+    const success = await run(values.username.trim(), values.password);
+    if (success) navigate(location.state?.from || '/dashboard', { replace: true });
   }
 
   return (
@@ -37,8 +29,8 @@ export default function Login() {
       <form onSubmit={submit} noValidate className="mt-6 space-y-4 rounded-2xl border-2 border-gold bg-white p-6">
         <Field id="username" label="Username" autoComplete="username" value={values.username} onChange={handleChange} error={errors.username} />
         <Field id="password" label="Password" type="password" autoComplete="current-password" value={values.password} onChange={handleChange} error={errors.password} />
-        <Alert message={serverError} />
-        <button id="btn-submit" className="btn w-full" type="submit" disabled={loading}>{loading ? 'Memproses…' : 'Masuk'}</button>
+        <Alert message={error} />
+        <button id="btn-submit" className="btn w-full" type="submit" disabled={pending}>{pending ? 'Memproses…' : 'Masuk'}</button>
       </form>
     </div>
   );
